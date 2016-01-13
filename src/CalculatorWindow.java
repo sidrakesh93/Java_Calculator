@@ -1,4 +1,3 @@
-import java.awt.ComponentOrientation;
 import java.awt.EventQueue;
 import java.awt.Font;
 
@@ -11,7 +10,10 @@ import java.awt.event.ActionEvent;
 public class CalculatorWindow {
 
 	private JFrame frame;
-	private String op = "none";
+	private JTextArea resultArea;
+	private JTextArea currArea;
+	
+	private String prev_oper = "none";
 	private int result = 0;
 	private int curr = 0;
 
@@ -43,7 +45,7 @@ public class CalculatorWindow {
 		public void actionPerformed(ActionEvent arg0) {
 			JButton jb = (JButton)arg0.getSource();
 			
-			if(op == "none")
+			if(prev_oper == "none")
 			{
 				resultArea.append(jb.getText());
 				result = Integer.valueOf(resultArea.getText());
@@ -61,33 +63,32 @@ public class CalculatorWindow {
 		public void actionPerformed(ActionEvent arg0) {
 			String type = ((JButton)arg0.getSource()).getText();
 
-			if(op != "none")
+			if(prev_oper != "none")
 			{
-				if(op == "+")
+				if(prev_oper == "+")
 				{
 					result += curr;
 				}
-				else if(op == "-")
+				else if(prev_oper == "-")
 				{
 					result -= curr;
 				}
 			}
 			
 			resultArea.setText(result + " " + type);
-			op = type;
+			prev_oper = type;
 			currArea.setText("");
 		}
 	};
-
-	private JTextArea resultArea;
-	private JTextArea currArea;
 	
 	/**
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 285, 421);
+		frame.setBounds(100, 100, 279, 421);
+		frame.setResizable(false);
+		frame.setTitle("Calculator");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
@@ -166,17 +167,17 @@ public class CalculatorWindow {
 		JButton button_equals = new JButton("=");
 		button_equals.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				if(op == "+")
+				if(prev_oper == "+")
 				{
 					result += curr;
 				}
-				else if(op == "-")
+				else if(prev_oper == "-")
 				{
 					result -= curr;
 				}
 				
 				resultArea.setText(result + "");
-				op = "none";
+				prev_oper = "none";
 				currArea.setText("");
 			}
 		});
@@ -191,7 +192,7 @@ public class CalculatorWindow {
 				curr = 0;
 				resultArea.setText("");
 				currArea.setText("");
-				op = "none";
+				prev_oper = "none";
 			}
 		});
 		AC_button.setBounds(132, 322, 50, 49);
@@ -200,7 +201,7 @@ public class CalculatorWindow {
 		JButton del_button = new JButton("<");
 		del_button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {		
-				if(op == "none")
+				if(prev_oper == "none")
 				{
 					result /= 10;
 					
