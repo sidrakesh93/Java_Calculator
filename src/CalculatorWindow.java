@@ -2,9 +2,9 @@ import java.awt.EventQueue;
 import java.awt.Font;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
@@ -27,7 +27,7 @@ public class CalculatorWindow {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-		            // Set System L&F
+		            // Set window L&F
 			        UIManager.setLookAndFeel(
 			        	"com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
 					
@@ -55,14 +55,26 @@ public class CalculatorWindow {
 			if(prev_oper == "none")
 			{
 				//write to result box
-				resultArea.append(jb.getText());
-				result = Integer.valueOf(resultArea.getText());
+				try {
+					resultArea.append(jb.getText());
+					result = Integer.valueOf(resultArea.getText());
+				}
+				catch(NumberFormatException e) {
+					clear_all();
+					JOptionPane.showMessageDialog(null, "Number too large to fit in integer!", "Error", JOptionPane.ERROR_MESSAGE);
+				}
 			}
 			else
 			{
+				try {
 				//write to current box
-				currArea.append(jb.getText());
-				curr = Integer.valueOf(currArea.getText());
+					currArea.append(jb.getText());
+					curr = Integer.valueOf(currArea.getText());
+				}
+				catch(NumberFormatException e) {
+					clear_all();
+					JOptionPane.showMessageDialog(null, "Number too large to fit in integer!", "Error", JOptionPane.ERROR_MESSAGE);
+				}
 			}
 		}
 	};
@@ -174,17 +186,22 @@ public class CalculatorWindow {
 		frame.getContentPane().add(button_equals);
 	}
 	
+	private void clear_all()
+	{
+		result = 0;
+		curr = 0;
+		resultArea.setText("");
+		currArea.setText("");
+		prev_oper = "none";
+	}
+	
 	/*Initialize the AC button*/
 	private void init_ac_button()
 	{
 		JButton AC_button = new JButton("AC");
 		AC_button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				result = 0;
-				curr = 0;
-				resultArea.setText("");
-				currArea.setText("");
-				prev_oper = "none";
+				clear_all();
 			}
 		});
 		AC_button.setBounds(132, 322, 50, 49);
