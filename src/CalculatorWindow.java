@@ -3,6 +3,8 @@ import java.awt.Font;
 
 import javax.swing.JFrame;
 import javax.swing.JTextArea;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
@@ -25,6 +27,10 @@ public class CalculatorWindow {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
+		            // Set System L&F
+			        UIManager.setLookAndFeel(
+			            UIManager.getSystemLookAndFeelClassName());
+					
 					CalculatorWindow window = new CalculatorWindow();
 					window.frame.setVisible(true);
 				} catch (Exception e) {
