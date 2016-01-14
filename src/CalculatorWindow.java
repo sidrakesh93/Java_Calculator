@@ -29,7 +29,7 @@ public class CalculatorWindow {
 				try {
 		            // Set System L&F
 			        UIManager.setLookAndFeel(
-			            UIManager.getSystemLookAndFeelClassName());
+			        	"com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
 					
 					CalculatorWindow window = new CalculatorWindow();
 					window.frame.setVisible(true);
